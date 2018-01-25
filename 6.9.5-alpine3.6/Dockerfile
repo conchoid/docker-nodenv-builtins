@@ -14,7 +14,8 @@ ENV PREINSTALLED_VERSIONS  "\
 RUN set -x \
   && echo -e ${PREINSTALLED_VERSIONS} \
     | while read -r version; do \
-        nodenv install ${version} \
+    # To avoid standard library version warnings, use '-c' option (Force compilation even if a matching binary exists).
+        nodenv install -c ${version} \
         && nodenv rehash \
         && nodenv global ${version} \
         # To disable showing progress may improve performance of npm install:
