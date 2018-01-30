@@ -1,5 +1,4 @@
-# TODO: Use docker-nodenv image
-FROM baseImage
+FROM conchoid/docker-nodenv
 
 ENV PREINSTALLED_VERSIONS  "\
 0.10.48\n\
