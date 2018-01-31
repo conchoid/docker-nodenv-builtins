@@ -1,14 +1,4 @@
-FROM conchoid/docker-nodenv
-
-ENV PREINSTALLED_VERSIONS  "\
-0.10.48\n\
-0.12.18\n\
-4.8.7\n\
-5.12.0\n\
-6.9.5\n\
-7.10.1\n\
-8.9.4\n\
-9.4.0"
+FROM conchoid/docker-nodenv:v1.1.2-1-6.9.5-alpine3.6
 
 RUN set -x \
   # "-D__USE_MISC" is necessary for building Nodejs 0.10.48 and it does not affect installation of other versions.
