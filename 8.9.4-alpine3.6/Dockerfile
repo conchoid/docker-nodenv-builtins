@@ -6,7 +6,7 @@ FROM node:7.10.1-alpine AS node7
 FROM node:8.9.4-alpine AS node8
 FROM node:9.4.0-alpine AS node9
 
-FROM conchoid/docker-nodenv:v1.1.2-2-8.10.0-alpine3.6
+FROM conchoid/docker-nodenv:v1.1.2-3-8.9.4-alpine3.6
 
 ENV NODE010 "0.10.48"
 ENV NODE012 "0.12.18"
