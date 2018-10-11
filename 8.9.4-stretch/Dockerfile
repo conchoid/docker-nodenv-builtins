@@ -7,7 +7,7 @@ FROM node:7.10.1-slim AS node7
 FROM node:9.4.0-slim AS node9
 FROM node:10.3.0-slim AS node10
 
-FROM conchoid/docker-nodenv:v1.1.2-5-8.9.4-stretch
+FROM conchoid/docker-nodenv:v1.1.2-6-8.9.4-stretch
 
 ENV NODE010 "0.10.48"
 ENV NODE012 "0.12.18"
@@ -43,11 +43,10 @@ COPY --from=node7 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE7
 COPY --from=node9 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE9}/lib/node_modules"
 COPY --from=node10 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE10}/lib/node_modules"
 
-RUN set -x \
-    && mkdir -p "${NODENV_ROOT}/versions/${NODE8}/bin/" "${NODENV_ROOT}/versions/${NODE8}/lib/" \
+RUN mkdir -p "${NODENV_ROOT}/versions/${NODE8}/bin/" "${NODENV_ROOT}/versions/${NODE8}/lib/" \
     && cp "$(nodenv which node)" "${NODENV_ROOT}/versions/${NODE8}/bin/" \
     && cp -R "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE8}/lib/" \
-    && echo -e ${PREINSTALLED_VERSIONS} | while read version;do \
+    && echo ${PREINSTALLED_VERSIONS} | while read version;do \
       NPM_SRC="${NODENV_ROOT}/versions/${version}/lib/node_modules/npm/bin/npm-cli.js" \
       && NPM_DST="${NODENV_ROOT}/versions/${version}/bin/npm" \
       # Override the shebang line of npm-cli.js to use the "node" path dynamically.
