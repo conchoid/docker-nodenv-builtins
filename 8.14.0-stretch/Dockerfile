@@ -1,23 +1,25 @@
 FROM conchoid/docker-nodenv-builtins:v1.1.2-node0.10.48-2-8.9.4-stretch AS node0.10-conchoid
 FROM conchoid/docker-nodenv-builtins:v1.1.2-node0.12.18-2-8.9.4-stretch AS node0.12-conchoid
-FROM node:4.8.7-slim AS node4
+FROM node:4.9.1-slim AS node4
 FROM conchoid/docker-nodenv-builtins:v1.1.2-node5.12.0-2-8.9.4-stretch  AS node5-conchoid
-FROM node:6.9.5-slim AS node6
+FROM node:6.15.0-slim AS node6
 FROM node:7.10.1-slim AS node7
-FROM node:9.4.0-slim AS node9
-FROM node:10.3.0-slim AS node10
+FROM node:9.11.2-slim AS node9
+FROM node:10.14.0-slim AS node10
+FROM node:11.3.0-slim AS node11
 
-FROM conchoid/docker-nodenv:v1.1.2-6-8.9.4-stretch
+FROM conchoid/docker-nodenv:v1.1.2-7-8.14.0-stretch
 
 ENV NODE010 "0.10.48"
 ENV NODE012 "0.12.18"
-ENV NODE4 "4.8.7"
+ENV NODE4 "4.9.1"
 ENV NODE5 "5.12.0"
-ENV NODE6 "6.9.5"
+ENV NODE6 "6.15.0"
 ENV NODE7 "7.10.1"
-ENV NODE8 "8.9.4"
-ENV NODE9 "9.4.0"
-ENV NODE10 "10.3.0"
+ENV NODE8 "8.14.0"
+ENV NODE9 "9.11.2"
+ENV NODE10 "10.14.0"
+ENV NODE11 "11.3.0"
 ENV PREINSTALLED_VERSIONS  "\
 ${NODE010}\n\
 ${NODE012}\n\
@@ -27,7 +29,8 @@ ${NODE6}\n\
 ${NODE7}\n\
 ${NODE8}\n\
 ${NODE9}\n\
-${NODE10}"
+${NODE10}\n\
+${NODE11}"
 
 COPY --from=node0.10-conchoid "${NODENV_ROOT}/versions/${NODE010}" "${NODENV_ROOT}/versions/${NODE010}"
 COPY --from=node0.12-conchoid "${NODENV_ROOT}/versions/${NODE012}" "${NODENV_ROOT}/versions/${NODE012}"
@@ -37,11 +40,13 @@ COPY --from=node6 "/usr/local/bin/node" "${NODENV_ROOT}/versions/${NODE6}/bin/"
 COPY --from=node7 "/usr/local/bin/node" "${NODENV_ROOT}/versions/${NODE7}/bin/"
 COPY --from=node9 "/usr/local/bin/node" "${NODENV_ROOT}/versions/${NODE9}/bin/"
 COPY --from=node10 "/usr/local/bin/node" "${NODENV_ROOT}/versions/${NODE10}/bin/"
+COPY --from=node11 "/usr/local/bin/node" "${NODENV_ROOT}/versions/${NODE11}/bin/"
 COPY --from=node4 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE4}/lib/node_modules"
 COPY --from=node6 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE6}/lib/node_modules"
 COPY --from=node7 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE7}/lib/node_modules"
 COPY --from=node9 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE9}/lib/node_modules"
 COPY --from=node10 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE10}/lib/node_modules"
+COPY --from=node11 "/usr/local/lib/node_modules" "${NODENV_ROOT}/versions/${NODE11}/lib/node_modules"
 
 RUN mkdir -p "${NODENV_ROOT}/versions/${NODE8}/bin/" "${NODENV_ROOT}/versions/${NODE8}/lib/" \
     && cp "$(nodenv which node)" "${NODENV_ROOT}/versions/${NODE8}/bin/" \
